@@ -42,5 +42,49 @@ h1, h2, h3, h4, h5, h6 {
 
 /* styles.css */
 body {
-    background-color: rebeccapurple;
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+}
+
+.header, .footer {
+  background-color: lightgray;
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+}
+
+.nav {
+  background-color: gray;
+}
+
+
+.toDos {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.toDosTitle {
+  text-align: center;
+  background-color: pink;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  padding: 20px;
+  gap: 10px;
+}
+
+.card {
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  padding: 10px;
+}
