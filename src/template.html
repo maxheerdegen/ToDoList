@@ -9,9 +9,8 @@
     <h1 class="header">To-Do-List</h1>
     <div class="content">
         <div class="nav">
-            <div class="projects">View all projects</div>
-            <div class="create">Create new To Do</div>
-
+            <button>View all projects</button>
+            <button class="showDialog">Create new To Do</button>
         </div>
         <div class="toDos">
             <div class="toDosTitle">placeholder</div>
@@ -19,6 +18,42 @@
             </div>
         </div>
     </div>
+    <dialog class="newToDoDialog">
+        <form class="newToDoForm">
+            <div>
+                <label for="title">To-Do Title:</label>
+                <input type="text" id="title" name="title">
+            </div>
+            <div>
+                <label for="description">To-Do Description:</label>
+                <textarea name="description" id="description">To-Do Description</textarea>
+            </div>
+            <div>
+                <label for="dueDate">Due Date:</label>
+                <input type="date" id="dueDate" name="dueDate">
+            </div>
+            <div>
+                <label for="priority">Priority:</label>
+                <select type="text" id="priority" name="priority">
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                </select>
+            </div>
+            <div>
+                <label for="projectCheckbox">Do you want to add it to a project?</label>
+                <input type="checkbox" id="projectCheckbox" name="projectCheckbox" value="no">
+            </div>
+            <div>
+                <label for="project">Project Name:</label>
+                <input type="text" id="project" name="project" disabled="disabled">
+            </div>
+            <div>
+                <button class="cancel" formmethod="dialog">Cancel</button>
+                <button class="confirm">Confirm</button>
+            </div>
+        </form>
+    </dialog>
     <div class="footer">The Odin Project ©</div>
 </body>
 </html>

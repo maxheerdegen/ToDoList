@@ -7,17 +7,6 @@ addToDo("eat", "cook", "today", "medium", "diet");
 addToDo("sleep", "get recovery", "now", "high");
 
 
-console.log(projects[0].getPriority());
-console.log(projects[1].getPriority());
-
-projects[0].changePriority("low");
-console.log(projects[0].getPriority());
-
-console.table(projects);
-console.log(projectNames);
-console.log(firstToDo)
-
-
 const container = document.querySelector(".container");
 
 window.onload = () => {
@@ -31,8 +20,19 @@ window.onload = () => {
         title.textContent = `Title: ${projects[i].toDoTitle}`;
         description.textContent = `Description: ${projects[i].toDoDescription}`; 
         dueDate.textContent = `Due Date: ${projects[i].toDoDueDate}`; 
-        priority.textContent = `Priority: ${projects[i].toDoPriority}`; 
+        priority.textContent = `Priority: ${projects[i].getPriority()}`;
 
-        
+        cardContent.classList.toggle("card");
+
+        cardContent.append(title, description, dueDate, priority);
+        container.appendChild(cardContent);
     }
 };
+
+const showDialogButton = document.querySelector(".showDialog");
+const newToDoDialog = document.querySelector(".newToDoDialog");
+
+showDialogButton.addEventListener("click", () => {
+    newToDoDialog.showModal();
+})
+
