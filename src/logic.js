@@ -30,6 +30,6 @@ function separateToDos(projectName) {
 }
 
 const projects = [];
-const projectNames = ["Default"];
+const projectNames = ["default"];
 
 export { createToDo, addToDo, projects, projectNames, separateToDos };

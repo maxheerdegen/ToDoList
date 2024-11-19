@@ -25,7 +25,7 @@ projectCheckbox.addEventListener("click", () => {
         modalProjectName.disabled = false;
     }
     else {
-        modalProjectName.value = "Default";
+        modalProjectName.value = "default";
         modalProjectName.disabled = true;
     }
 })
