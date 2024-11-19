@@ -64,7 +64,6 @@ body {
   flex-direction: column;
 }
 
-
 .toDos {
   display: flex;
   flex-direction: column;

@@ -1,12 +1,36 @@
 import "./styles.css";
-import { createToDo, addToDo, projects, projectNames, separateToDos } from "./logic.js";
+import { createToDo, addToDo, projectNames, separateToDos } from "./logic.js";
 import { newToDoForm, newToDoDialog, confirmButton, modalTitle, modalDescription, modalDueDate, modalPriority, modalProjectName } from "./modal.js";
 
+function firstLoadUp() {
+    displayToDos("default");
+    const navDefault = document.createElement("div");
+    navDefault.textContent = "default";
+    navDefault.addEventListener("click", () => {
+        eraseContainer();
+        displayToDos("default");
+    })
 
+    navDiv.appendChild(navDefault);
+}
 
 function eraseContainer() {
     while (container.lastChild){
         container.removeChild(container.lastChild);
+    }
+}
+
+function displayProjectName(projectName) {
+    if(!projectNames.includes(projectName)) {
+        const navProjectName = document.createElement("div");
+        navProjectName.textContent = `${projectName}`;
+
+        navProjectName.addEventListener("click", () => {
+            eraseContainer();
+            displayToDos(projectName);
+        })
+
+        navDiv.appendChild(navProjectName);
     }
 }
 
@@ -35,47 +59,22 @@ function displayToDos(projectName) {
     }
 };
 
-function viewAllProjects() {
-    
-    eraseContainer();
-    
-    for (let i = 0; i < projectNames.length; i++) {
-        const projectName = document.createElement("div");
-        projectName.textContent = `${projectNames[i]}`;
-        
-        projectName.classList.toggle("card");
-
-        projectName.addEventListener("click", () => {
-            eraseContainer();
-            displayToDos(projectNames[i]);
-        })
-        
-        container.appendChild(projectName);
-    }
-}
-
 const container = document.querySelector(".container");
-const viewProjectsButton = document.querySelector(".viewProjects");
+const navDiv = document.querySelector(".nav");
 
 const firstToDo = createToDo("study", "programming", "tomorrow", "high", "default");
 addToDo("study", "programming", "tomorrow", "high", "default");
 addToDo("eat", "cook", "today", "medium", "diet");
 addToDo("sleep", "get recovery", "now", "high", "default");
 
-console.log(separateToDos("diet"));
-
-
 confirmButton.addEventListener("click", () => {
     event.preventDefault();
+    displayProjectName(modalProjectName.value);
     addToDo(modalTitle.value, modalDescription.value, modalDueDate.value, modalPriority.value, modalProjectName.value);
     displayToDos(modalProjectName.value);
-    console.log(projects);
     newToDoForm.reset();
     modalProjectName.disabled = true;
     newToDoDialog.close();
 })
 
-viewProjectsButton.addEventListener("click", viewAllProjects);
-
-
-window.onload = displayToDos("default");
+firstLoadUp();

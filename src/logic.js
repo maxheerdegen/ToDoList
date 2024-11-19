@@ -22,7 +22,6 @@ function addToDo (title, description, dueDate, priority, project) {
 
 function separateToDos(projectName) {
     const separatedToDos = projects.filter((el) => {
-        console.log(el.toDoProject);
         return el.toDoProject == projectName;
     })
 
@@ -32,4 +31,4 @@ function separateToDos(projectName) {
 const projects = [];
 const projectNames = ["default"];
 
-export { createToDo, addToDo, projects, projectNames, separateToDos };
+export { createToDo, addToDo, projectNames, separateToDos };
