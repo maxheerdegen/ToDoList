@@ -15,12 +15,21 @@ function addToDo (title, description, dueDate, priority, project) {
     const toDo = createToDo(title, description, dueDate, priority, project);
     projects.push(toDo);
 
-    if (!projectNames.includes(project) && !project=="") {
+    if (!projectNames.includes(project)) {
         projectNames.push(project);
     }
 }
 
-const projects = [];
-const projectNames = [];
+function separateToDos(projectName) {
+    const separatedToDos = projects.filter((el) => {
+        console.log(el.toDoProject);
+        return el.toDoProject == projectName;
+    })
 
-export { createToDo, addToDo, projects, projectNames };
+    return separatedToDos;
+}
+
+const projects = [];
+const projectNames = ["Default"];
+
+export { createToDo, addToDo, projects, projectNames, separateToDos };
