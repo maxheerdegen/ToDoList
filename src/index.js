@@ -1,6 +1,7 @@
 import "./styles.css";
-import { createToDo, addToDo, projectNames, separateToDos } from "./logic.js";
-import { newToDoForm, newToDoDialog, confirmButton, modalTitle, modalDescription, modalDueDate, modalPriority, modalProjectName } from "./modal.js";
+import { createToDo, addToDo, projects, projectNames } from "./logic.js";
+import { newToDoForm, newToDoDialog, confirmButton, modalTitle, modalDueDate, modalPriority, modalProjectName } from "./modal.js";
+
 
 function firstLoadUp() {
     displayToDos("default");
@@ -37,40 +38,50 @@ function displayProjectName(projectName) {
 function displayToDos(projectName) {
     
     eraseContainer();
-    
-    const toDosInProject = separateToDos(projectName);
 
-    for (let i = 0; i < toDosInProject.length; i++) {
-        const cardContent = document.createElement("div");
-        const title = document.createElement("div");
-        const description = document.createElement("div");
-        const dueDate = document.createElement("div");
-        const priority = document.createElement("div");
-        
-        title.textContent = `Title: ${toDosInProject[i].toDoTitle}`;
-        description.textContent = `Description: ${toDosInProject[i].toDoDescription}`; 
-        dueDate.textContent = `Due Date: ${toDosInProject[i].toDoDueDate}`; 
-        priority.textContent = `Priority: ${toDosInProject[i].getPriority()}`;
-        
-        cardContent.classList.toggle("card");
-        
-        cardContent.append(title, description, dueDate, priority);
-        container.appendChild(cardContent);
+    for (let i = 0; i < projects.length; i++) {
+        if(projects[i].toDoProject === projectName) {
+            const cardContent = document.createElement("div");
+            const title = document.createElement("div");
+            const dueDate = document.createElement("div");
+            const priority = document.createElement("div");
+            const deleteButton = document.createElement("button");
+            const editDetailsButton = document.createElement("button");
+            
+            title.textContent = `Title: ${projects[i].toDoTitle}`;
+            dueDate.textContent = `Due Date: ${projects[i].toDoDueDate}`; 
+            priority.textContent = `Priority: ${projects[i].getPriority()}`;
+            deleteButton.textContent = "X";
+            editDetailsButton.textContent= "Edit Details"
+            
+            cardContent.dataset.ToDoIndex = i;
+            cardContent.classList.toggle("card");
+            cardContent.append(title, dueDate, priority, editDetailsButton, deleteButton);
+            container.appendChild(cardContent);
+
+            editDetailsButton.addEventListener("click", editToDoDetails);
+
+            deleteButton.addEventListener("click", () => {
+                container.removeChild(cardContent);
+                projects.splice(cardContent.dataset.ToDoIndex, 1);
+                displayToDos(projectName);
+            })
+        }
     }
 };
 
 const container = document.querySelector(".container");
 const navDiv = document.querySelector(".nav");
 
-const firstToDo = createToDo("study", "programming", "tomorrow", "high", "default");
-addToDo("study", "programming", "tomorrow", "high", "default");
-addToDo("eat", "cook", "today", "medium", "diet");
-addToDo("sleep", "get recovery", "now", "high", "default");
+const firstToDo = createToDo("study", "tomorrow", "high", "default");
+addToDo("study", "tomorrow", "high", "default");
+addToDo("eat", "today", "medium", "diet");
+addToDo("sleep", "now", "high", "default");
 
 confirmButton.addEventListener("click", () => {
     event.preventDefault();
     displayProjectName(modalProjectName.value);
-    addToDo(modalTitle.value, modalDescription.value, modalDueDate.value, modalPriority.value, modalProjectName.value);
+    addToDo(modalTitle.value, modalDueDate.value, modalPriority.value, modalProjectName.value);
     displayToDos(modalProjectName.value);
     newToDoForm.reset();
     modalProjectName.disabled = true;

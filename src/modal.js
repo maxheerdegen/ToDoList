@@ -4,7 +4,6 @@ const cancelButton = document.querySelector(".cancel");
 const newToDoForm = document.querySelector(".newToDoForm");
 const confirmButton = document.querySelector(".confirm");
 const modalTitle = document.querySelector("#title");
-const modalDescription = document.querySelector("#description");
 const modalDueDate = document.querySelector("#dueDate");
 const modalPriority = document.querySelector("#priority");
 const projectCheckbox = document.querySelector("#projectCheckbox");
@@ -30,4 +29,4 @@ projectCheckbox.addEventListener("click", () => {
     }
 })
 
-export { newToDoForm, newToDoDialog, confirmButton, modalTitle, modalDescription, modalDueDate, modalPriority, modalProjectName };
+export { newToDoForm, newToDoDialog, confirmButton, modalTitle, modalDueDate, modalPriority, modalProjectName };
