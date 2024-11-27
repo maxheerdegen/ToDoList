@@ -1,7 +1,8 @@
 import "./styles.css";
 import { createToDo, addToDo, projects, projectNames } from "./logic.js";
-import { newToDoForm, newToDoDialog, confirmButton, modalTitle, modalDueDate, modalPriority, modalProjectName } from "./modal.js";
+import { newToDoForm, newToDoDialog, confirmButton, modalTitle, modalDueDate, modalPriority, projectCheckbox, modalProjectName, confirmNewToDo, confirmEditToDo } from "./modal.js";
 
+export { displayProjectName, displayToDos};
 
 function firstLoadUp() {
     displayToDos("default");
@@ -34,6 +35,22 @@ function displayProjectName(projectName) {
         navDiv.appendChild(navProjectName);
     }
 }
+
+function editToDoDetails () {
+
+    const projectsIndex = event.target.parentNode.dataset.ToDoIndex;
+    modalTitle.value = projects[projectsIndex].toDoTitle;
+    modalDueDate.value = projects[projectsIndex].toDoDueDate
+    modalPriority.value = projects[projectsIndex].getPriority();
+    modalProjectName.value = projects[projectsIndex].toDoProject;
+    projectCheckbox.disabled = true;
+
+    confirmButton.removeEventListener("click", confirmNewToDo);
+    const myFunc = confirmEditToDo.bind(null, projectsIndex);
+    confirmButton.addEventListener("click", myFunc, {once: true});
+
+    newToDoDialog.showModal();
+};
 
 function displayToDos(projectName) {
     
@@ -68,6 +85,8 @@ function displayToDos(projectName) {
             })
         }
     }
+
+    console.table(projects);
 };
 
 const container = document.querySelector(".container");
@@ -77,15 +96,5 @@ const firstToDo = createToDo("study", "tomorrow", "high", "default");
 addToDo("study", "tomorrow", "high", "default");
 addToDo("eat", "today", "medium", "diet");
 addToDo("sleep", "now", "high", "default");
-
-confirmButton.addEventListener("click", () => {
-    event.preventDefault();
-    displayProjectName(modalProjectName.value);
-    addToDo(modalTitle.value, modalDueDate.value, modalPriority.value, modalProjectName.value);
-    displayToDos(modalProjectName.value);
-    newToDoForm.reset();
-    modalProjectName.disabled = true;
-    newToDoDialog.close();
-})
 
 firstLoadUp();
