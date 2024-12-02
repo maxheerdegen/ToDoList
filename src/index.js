@@ -25,14 +25,35 @@ function eraseContainer() {
 function displayProjectName(projectName) {
     if(!projectNames.includes(projectName)) {
         const navProjectName = document.createElement("div");
+        const deleteProjectButton = document.createElement("button");
         navProjectName.textContent = `${projectName}`;
+        deleteProjectButton.textContent = "X";
+
+        navProjectName.appendChild(deleteProjectButton);
+        navDiv.appendChild(navProjectName);
 
         navProjectName.addEventListener("click", () => {
             eraseContainer();
             displayToDos(projectName);
         })
 
-        navDiv.appendChild(navProjectName);
+        deleteProjectButton.addEventListener("click", () => {
+            navDiv.removeChild(navProjectName);
+            for(let i = 0; i < projectNames.length; i++) {
+                if(projectNames[i] === projectName) {
+                    projectNames.splice(i, 1);
+                    break;
+                }
+            }
+
+            for(let i = 0; i < projects.length; i++) {
+                if(projects[i].toDoProject === projectName) {
+                    projects.splice(i, 1);
+                    i--;
+                }
+            }
+        })
+
     }
 }
 
@@ -87,6 +108,7 @@ function displayToDos(projectName) {
     }
 
     console.table(projects);
+    console.table(projectNames);
 };
 
 const container = document.querySelector(".container");
