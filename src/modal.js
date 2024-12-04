@@ -1,5 +1,5 @@
 import { displayProjectName, displayToDos } from "./index.js";
-import { addToDo, projects } from "./logic";
+import { addToDo, projects, storedProjects } from "./logic";
 
 const showDialogButton = document.querySelector(".showDialog");
 const newToDoDialog = document.querySelector(".newToDoDialog");
@@ -30,6 +30,11 @@ function confirmEditToDo(projectsIndex) {
     projects[projectsIndex].toDoDueDate = modalDueDate.value;
     projects[projectsIndex].changePriority(modalPriority.value);
 
+    storedProjects[projectsIndex].toDoTitle = modalTitle.value;
+    storedProjects[projectsIndex].toDoDueDate = modalDueDate.value;
+    storedProjects[projectsIndex].toDoPriority = modalPriority.value;
+    
+    localStorage.setItem("projects", JSON.stringify(storedProjects));
 
     displayToDos(projects[projectsIndex].toDoProject);
     newToDoForm.reset();

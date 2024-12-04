@@ -7,11 +7,18 @@ function createToDo(title, dueDate, priority, project) {
     const getPriority = () => toDoPriority;
     const changePriority = (newPriority) => toDoPriority = newPriority;
 
-    return {toDoTitle, toDoDueDate, toDoProject, getPriority, changePriority};
+    const forStorage = () => {
+        return {toDoTitle, toDoDueDate, toDoPriority, toDoProject};
+    }
+
+    return {toDoTitle, toDoDueDate, toDoProject, getPriority, changePriority, forStorage};
 }
 
 function addToDo (title, dueDate, priority, project) {
     const toDo = createToDo(title, dueDate, priority, project);
+    const storedToDo = toDo.forStorage();
+    storedProjects.push(storedToDo);
+    localStorage.setItem("projects", JSON.stringify(storedProjects));
     projects.push(toDo);
 
     if (!projectNames.includes(project)) {
@@ -28,6 +35,8 @@ function separateToDos(projectName) {
 }
 
 const projects = [];
+const storedProjects = [];
+console.table(projects);
 const projectNames = ["default"];
 
-export { createToDo, addToDo, projectNames, projects, separateToDos };
+export { createToDo, addToDo, projectNames, projects, separateToDos, storedProjects };

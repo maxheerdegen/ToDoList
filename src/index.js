@@ -1,19 +1,26 @@
 import "./styles.css";
-import { createToDo, addToDo, projects, projectNames } from "./logic.js";
-import { newToDoForm, newToDoDialog, confirmButton, modalTitle, modalDueDate, modalPriority, projectCheckbox, modalProjectName, confirmNewToDo, confirmEditToDo } from "./modal.js";
+import { addToDo, projects, projectNames, storedProjects } from "./logic.js";
+import { newToDoDialog, confirmButton, modalTitle, modalDueDate, modalPriority, projectCheckbox, modalProjectName, confirmNewToDo, confirmEditToDo } from "./modal.js";
 
-export { displayProjectName, displayToDos};
+export { displayProjectName, displayToDos };
 
 function firstLoadUp() {
+    restoreProjects();
     displayToDos("default");
-    const navDefault = document.createElement("div");
-    navDefault.textContent = "default";
+    const navDefault = document.querySelector(".defaultProjects");
     navDefault.addEventListener("click", () => {
         eraseContainer();
         displayToDos("default");
     })
+}
 
-    navDiv.appendChild(navDefault);
+function restoreProjects() {
+    const restoredProjects = JSON.parse(localStorage.getItem("projects") || "[]");
+    console.table(restoredProjects);
+    for(let i=0; i < restoredProjects.length; i++) {
+        displayProjectName(restoredProjects[i].toDoProject);
+        addToDo(restoredProjects[i].toDoTitle, restoredProjects[i].toDoDueDate, restoredProjects[i].toDoPriority, restoredProjects[i].toDoProject);
+    }
 }
 
 function eraseContainer() {
@@ -49,6 +56,8 @@ function displayProjectName(projectName) {
             for(let i = 0; i < projects.length; i++) {
                 if(projects[i].toDoProject === projectName) {
                     projects.splice(i, 1);
+                    storedProjects.splice(i,1);
+                    localStorage.setItem("projects", JSON.stringify(storedProjects));
                     i--;
                 }
             }
@@ -102,6 +111,8 @@ function displayToDos(projectName) {
             deleteButton.addEventListener("click", () => {
                 container.removeChild(cardContent);
                 projects.splice(cardContent.dataset.ToDoIndex, 1);
+                storedProjects.splice(cardContent.dataset.ToDoIndex, 1);
+                localStorage.setItem("projects", JSON.stringify(storedProjects));
                 displayToDos(projectName);
             })
         }
@@ -114,9 +125,5 @@ function displayToDos(projectName) {
 const container = document.querySelector(".container");
 const navDiv = document.querySelector(".nav");
 
-const firstToDo = createToDo("study", "tomorrow", "high", "default");
-addToDo("study", "tomorrow", "high", "default");
-addToDo("eat", "today", "medium", "diet");
-addToDo("sleep", "now", "high", "default");
 
 firstLoadUp();
